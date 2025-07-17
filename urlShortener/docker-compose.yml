@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: urlshortener-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: urlshortener
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - urlshortener-network
+
+  app:
+    image: urlshortener:latest
+    container_name: urlshortener-app
+    restart: unless-stopped
+    ports:
+      - "7034:7034"
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=urlshortener
+      - SERVER_PORT=7034
+    depends_on:
+      - mongo
+    networks:
+      - urlshortener-network
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  urlshortener-network:
+    driver: bridge
