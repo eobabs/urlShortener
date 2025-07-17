@@ -64,7 +64,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./urlShortener/urlShortener
-          file: ./urlShortener/urlShortener/Dockerfile
+          context: ./urlShortener
+          file: ./urlShortener/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/urlshortener:${{ github.sha }},${{ secrets.DOCKERHUB_USERNAME }}/urlshortener:latest
