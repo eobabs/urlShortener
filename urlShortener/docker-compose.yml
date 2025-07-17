@@ -15,7 +15,9 @@ services:
       - urlshortener-network
 
   app:
-    image: urlshortener:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: urlshortener-app
     restart: unless-stopped
     ports:
